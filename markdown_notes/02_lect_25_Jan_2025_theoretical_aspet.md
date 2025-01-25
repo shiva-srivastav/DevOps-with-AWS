@@ -146,7 +146,7 @@
 
 ---
 
-### Fundamentals Before DevOps
+### Fundamentals concepts with DevOps we cover
 
 - Linux OS + Scripting.
 - AWS Cloud.
