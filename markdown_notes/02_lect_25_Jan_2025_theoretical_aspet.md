@@ -4,7 +4,7 @@
 
 
 - **Duration:** 4 months (3 hours per session).
-- **Platform where you connect:** Zoom + Mail + Private Discord Group + Dashboard.
+- **Platform where we connect:** Zoom + Mail + Private Discord Group + Dashboard.
 - **Features:**
   - All classes recorded (lifetime access).
   - Notes for every module provided.
