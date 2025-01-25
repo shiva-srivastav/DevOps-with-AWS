@@ -3,7 +3,7 @@
 **Date:** 25 Jan 2025 | **Lecture 2**
 
 
-- **Duration:** 4 months (4 hours per session).
+- **Duration:** 4 months (3 hours per session).
 - **Platform:** Zoom + Mail + Private Discord Group + Dashboard.
 - **Features:**
   - All classes recorded (lifetime access).
