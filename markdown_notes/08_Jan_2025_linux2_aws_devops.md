@@ -117,8 +117,7 @@ Essential VI commands:
 - Start editing: Press 'i'
 - Save changes: `:wq`
 - Discard changes: `:q!`
-
-![Image 1](images/linux/image1.png)
+ 
 
 ### File Creation Methods
 ```bash
