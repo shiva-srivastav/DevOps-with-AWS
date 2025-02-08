@@ -58,7 +58,6 @@ Linux OS is commonly used for setting up **software infrastructure**. Some popul
   - **Ubuntu Linux**
   - **Red Hat Linux (RHEL)**
   - **Kali Linux**
-
 ## **OS & Why We Need It?**
 
 - **Windows OS** ➝ Uses a **Virtual Machine**
