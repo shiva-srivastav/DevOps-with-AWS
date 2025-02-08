@@ -134,21 +134,4 @@ sed 's/oldtext/newtext/g' file.txt  # Replace 'oldtext' with 'newtext' in a file
 ---
 
 ### Diagram: `vi` Editor Workflow
-```plaintext
-+-----------------+
-| Command Mode    |  (Navigation & Commands)
-+-----------------+
-         |
-         v
-+-----------------+
-| Insert Mode     |  (Editing the File)
-+-----------------+
-         |
-         v
-+-----------------+
-| Escape Mode     |  (Save/Quit)
-+-----------------+
-```
-
-
-
+![Image 1](images/linux/image1.png)
