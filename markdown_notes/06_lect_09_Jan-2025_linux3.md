@@ -1,6 +1,4 @@
-I'll restructure the notes by dividing them based on their functionality with proper explanations.
-
-# Linux Command-Line Operations
+ # Linux Command-Line Operations
 
 ## 1. SED Command (Stream Editor)
 SED is a powerful stream editor in Linux for basic text transformations on an input stream (a file or input from a pipeline).
