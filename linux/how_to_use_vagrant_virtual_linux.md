@@ -32,8 +32,8 @@ If installed correctly, these commands should return their respective versions.
 ### 2. Initialize a New Vagrant Project
 Create a directory for your Vagrant project and navigate to it:
 ```sh
-mkdir my-vagrant-ubuntu
-cd my-vagrant-ubuntu
+mkdir vagrant-os
+cd vagrant-os
 ```
 Initialize a new Vagrant environment using an official Ubuntu base box:
 ```sh
