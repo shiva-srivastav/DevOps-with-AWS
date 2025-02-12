@@ -69,7 +69,7 @@ The `extra-learning` branch provides supplementary materials:
 
 ```bash
 # Get the main course materials
-git clone https://github.com/[username]/devops-notes.git
+git clone https://github.com/navinreddy20/devops-notes.git
 cd devops-notes
 
 # For core learning materials
