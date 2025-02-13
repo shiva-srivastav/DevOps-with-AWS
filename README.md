@@ -6,7 +6,7 @@ Welcome to our DevOps and AWS learning repository! This repository contains comp
 
 ### Main Branch
 
-The `main` branch contains core learning materials organized in two primary folders:
+The `main` branch contains core learning materials:
 
 #### 1. pdf_notes/
 
@@ -69,4 +69,3 @@ git checkout main
 ```
 
 ⭐ Star this repository if you find it helpful!
- 
