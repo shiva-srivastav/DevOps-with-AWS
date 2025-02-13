@@ -22,15 +22,6 @@ The `main` branch contains core learning materials organized in two primary fold
 - Code examples and commands
 - Best practices and troubleshooting tips
 
-### Extra Learning Branch
-
-The `extra-learning` branch provides supplementary materials:
-
-- Deep dive into complex topics
-- Additional examples and use cases
-- Extended practice exercises
-- Advanced concepts beyond course curriculum
-
 ## Course Topics
 
 ### 1. DevOps Fundamentals
@@ -75,10 +66,7 @@ cd devops-notes
 # For core learning materials
 git checkout main
 
-# For additional learning resources
-git checkout extra-learning
 ```
 
 ⭐ Star this repository if you find it helpful!
-
-_Last Updated: February 2025_
+ 
