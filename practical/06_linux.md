@@ -1,197 +1,24 @@
-Here are 5 practical scenario-based questions to test understanding of Linux command-line operations:
+# Linux Command-Line Practice Scenarios
 
-# Practice Scenarios
+## Practice Environment Setup
 
-## Scenario 1: Text File Management
-**Situation**: You're managing a configuration file that contains multiple instances of an old server IP address '192.168.1.100' that needs to be updated to '192.168.1.200'.
-
-**Question**: Which SED command would you use to:
-1. Replace only the first occurrence in each line?
-2. Replace all occurrences in the file and save changes?
-
-**Solution**:
+### Initial Setup
 ```bash
-# For first occurrence only
-sed 's/192.168.1.100/192.168.1.200/' config.txt
-
-# For all occurrences with save
-sed -i 's/192.168.1.100/192.168.1.200/g' config.txt
-```
-
-## Scenario 2: User Account Setup
-**Situation**: You're a system administrator setting up accounts for a new development team of three members: Alice, Bob, and Charlie. They all need to be part of a new group called 'developers'.
-
-**Question**: What sequence of commands would you use to:
-1. Create the group
-2. Create the user accounts
-3. Add them to the developers group
-4. Verify their group membership
-
-**Solution**:
-```bash
-# Create group and users
-sudo groupadd developers
-sudo useradd alice
-sudo useradd bob
-sudo useradd charlie
-
-# Add to developers group
-sudo usermod -aG developers alice
-sudo usermod -aG developers bob
-sudo usermod -aG developers charlie
-
-# Verify membership
-grep developers /etc/group
-```
-
-## Scenario 3: Log File Cleanup
-**Situation**: You have a log file (app.log) that contains thousands of lines, and you need to remove all lines containing the word "DEBUG" while preserving other log levels.
-
-**Question**: Which command would you use to:
-1. Preview the lines that will be deleted?
-2. Actually delete those lines?
-
-**Solution**:
-```bash
-# Preview DEBUG lines
-sed -n '/DEBUG/p' app.log
-
-# Delete DEBUG lines
-sed -i '/DEBUG/d' app.log
-```
-
-## Scenario 4: User Management
-**Situation**: An employee John is leaving the company, but their work files need to be preserved for the next person joining.
-
-**Question**: What commands would you use to:
-1. Delete John's user account while preserving their home directory?
-2. Change ownership of their files to a new user Sarah?
-
-## Solution Steps
-
-### 1. Backup John's Files
-```bash
-# Create backup directory
-sudo mkdir -p /backup/john_backup
-sudo cp -r /home/john/projects/* /backup/john_backup/
-```
-
-### 2. Remove John's Account (Preserving Files)
-```bash
-# Delete account but keep home directory
-sudo userdel john
-```
-
-### 3. Create Sarah's Account
-```bash
-# Create new user Sarah
-sudo useradd -m sarah
-sudo passwd sarah  # Set password for Sarah
-```
-
-### 4. Transfer Files and Ownership
-```bash
-# Create projects directory in Sarah's home
-sudo mkdir -p /home/sarah/projects
-
-# Copy files from backup
-sudo cp -r /backup/john_backup/* /home/sarah/projects/
-
-# Change ownership of all files to Sarah
-sudo chown -R sarah:sarah /home/sarah/projects
-```
-
-### 5. Verify Setup
-```bash
-# Check file ownership
-ls -l /home/sarah/projects/
-
-# Verify file contents
-cat /home/sarah/projects/project1.txt
-cat /home/sarah/projects/project2.txt
-cat /home/sarah/projects/important_notes.txt
-
-# Check Sarah's access
-sudo -u sarah ls -l /home/sarah/projects/
-```
-
-```mermaid
-graph TD
-    A[User Transition Process] --> B[Backup Files]
-    B --> C[Remove Old Account]
-    C --> D[Create New Account]
-    D --> E[Transfer Files]
-    E --> F[Verify Setup]
-    B --> G[/backup/john_backup]
-    E --> H[/home/sarah/projects]
-```
-
-## Verification Checklist
-- [ ] All files are successfully copied
-- [ ] File permissions are correct
-- [ ] Sarah has full access to the files
-- [ ] Original content is preserved
-- [ ] No broken links or permissions
-
-## Important Notes
-1. Always create backups before removing user accounts
-2. Verify file permissions after ownership transfer
-3. Check for any group-specific permissions that might need to be transferred
-4. Document any specific configurations or settings
-5. Test the new user's access to all necessary resources
-
-
-```
-
-## Scenario 5: Sudoers Configuration
-**Situation**: You need to give a new DevOps engineer (username: devops) sudo access to only networking commands (ifconfig, netstat, ping).
-
-**Question**: How would you:
-1. Open the sudoers file safely?
-2. What line would you add to grant this specific access?
-
-**Solution**:
-```bash
-# Open sudoers file
-sudo visudo
-
-# Add the following line
-devops ALL=(ALL) /sbin/ifconfig, /bin/netstat, /bin/ping
-```
-
-```mermaid
-graph TD
-    A[Common Admin Tasks] --> B[File Editing]
-    A --> C[User Management]
-    A --> D[Group Management]
-    A --> E[Permissions]
-    B --> F[SED Operations]
-    C --> G[Account Creation]
-    C --> H[Account Deletion]
-    D --> I[Group Assignments]
-    E --> J[Sudo Access]
-```
-
-create a test environment to practice these scenarios. Let's set up each scenario step by step.
-
-# Setting Up Practice Environment
-
-## Initial Setup
-First, create a dedicated practice directory:
-
-```bash
-# Create and enter practice directory
+# Create main practice directory
 mkdir ~/linux_practice
 cd ~/linux_practice
+
+# Create scenario-specific directories
+mkdir -p {config_files,logs,user_management,sudo_practice,backup,project_files}
 ```
 
-## Scenario 1: Text File Management Setup
-```bash
-# Create a config directory
-mkdir config_files
-cd config_files
+### Scenario-Specific Environment Setup
 
-# Create a sample configuration file
+#### 1. Text File Management Environment
+```bash
+cd ~/linux_practice/config_files
+
+# Create sample configuration files
 cat > server_config.txt << EOF
 Server1 IP: 192.168.1.100 
 Backup Server: 192.168.1.100
@@ -200,33 +27,34 @@ Redis: 192.168.1.100:6379
 Load Balancer: 192.168.1.100:80
 EOF
 
-cd ..
+# Create backup configuration
+cat > app_config.txt << EOF
+APP_SERVER=192.168.1.100
+DB_SERVER=192.168.1.100
+CACHE_SERVER=192.168.1.100
+EOF
 ```
 
-## Scenario 2: User and Group Management Setup
+#### 2. Project Files Setup
 ```bash
-# First, create a directory to simulate project files
-mkdir project_files
-cd project_files
+cd ~/linux_practice/project_files
 
-# Create some sample project files
-touch project1.txt project2.txt project3.txt
+# Create sample project files
+for i in {1..3}; do
+    echo "Project $i Documentation" > project${i}.txt
+    echo "Content for project $i" >> project${i}.txt
+    echo "Status: In Progress" >> project${i}.txt
+done
 
-# Add some content to files
-echo "This is project 1 content" > project1.txt
-echo "This is project 2 content" > project2.txt
-echo "This is project 3 content" > project3.txt
-
-cd ..
+# Set appropriate permissions
+chmod 644 project*.txt
 ```
 
-## Scenario 3: Log File Setup
+#### 3. Log Files Environment
 ```bash
-# Create logs directory
-mkdir logs
-cd logs
+cd ~/linux_practice/logs
 
-# Create a sample log file with mixed content
+# Create sample log file with mixed content
 cat > app.log << EOF
 [2024-02-09 10:00:01] INFO: Application started
 [2024-02-09 10:00:02] DEBUG: Initializing database connection
@@ -239,22 +67,20 @@ cat > app.log << EOF
 [2024-02-09 10:00:09] INFO: System stable
 EOF
 
-cd ..
+# Create rotated log files
+cp app.log app.log.1
+gzip app.log.1
 ```
 
-## Scenario 4: User Management Practical Exercise
-
+#### 4. User Management Setup
 ```bash
-# Create practice directory
-mkdir ~/user_transition
-cd ~/user_transition
+cd ~/linux_practice/user_management
 
-# Create test files structure for John
-sudo useradd john
+# Create test user directories
 sudo mkdir -p /home/john/projects
 cd /home/john/projects
 
-# Create sample project files
+# Create sample project files for John
 sudo bash -c 'cat > project1.txt << EOF
 Project Status: In Progress
 Priority: High
@@ -280,174 +106,264 @@ Server Credentials:
 - Database Backups: Daily at 2 AM
 EOF'
 
-# Set initial ownership
+# Set ownership
 sudo chown -R john:john /home/john/projects
 ```
 
-## Solution Steps
-
-### 1. Backup John's Files
+#### 5. Sudo Practice Environment
 ```bash
-# Create backup directory
-sudo mkdir -p /backup/john_backup
-sudo cp -r /home/john/projects/* /backup/john_backup/
-```
+cd ~/linux_practice/sudo_practice
 
-### 2. Remove John's Account (Preserving Files)
-```bash
-# Delete account but keep home directory
-sudo userdel john
-```
-
-### 3. Create Sarah's Account
-```bash
-# Create new user Sarah
-sudo useradd -m sarah
-sudo passwd sarah  # Set password for Sarah
-```
-
-### 4. Transfer Files and Ownership
-```bash
-# Create projects directory in Sarah's home
-sudo mkdir -p /home/sarah/projects
-
-# Copy files from backup
-sudo cp -r /backup/john_backup/* /home/sarah/projects/
-
-# Change ownership of all files to Sarah
-sudo chown -R sarah:sarah /home/sarah/projects
-```
-
-### 5. Verify Setup
-```bash
-# Check file ownership
-ls -l /home/sarah/projects/
-
-# Verify file contents
-cat /home/sarah/projects/project1.txt
-cat /home/sarah/projects/project2.txt
-cat /home/sarah/projects/important_notes.txt
-
-# Check Sarah's access
-sudo -u sarah ls -l /home/sarah/projects/
-```
-
-```mermaid
-graph TD
-    A[User Transition Process] --> B[Backup Files]
-    B --> C[Remove Old Account]
-    C --> D[Create New Account]
-    D --> E[Transfer Files]
-    E --> F[Verify Setup]
-    B --> G[/backup/john_backup]
-    E --> H[/home/sarah/projects]
-```
-
-## Verification Checklist
-- [ ] All files are successfully copied
-- [ ] File permissions are correct
-- [ ] Sarah has full access to the files
-- [ ] Original content is preserved
-- [ ] No broken links or permissions
-
-## Important Notes
-1. Always create backups before removing user accounts
-2. Verify file permissions after ownership transfer
-3. Check for any group-specific permissions that might need to be transferred
-4. Document any specific configurations or settings
-5. Test the new user's access to all necessary resources
-
-Would you like me to explain any specific part of this process in more detail?
-
-## Scenario 5: Sudo Practice Setup
-```bash
-# Create practice sudo directory
-mkdir sudo_practice
-cd sudo_practice
-
-# Create a mock commands list
+# Create command list file
 cat > allowed_commands.txt << EOF
 Available Commands:
 /sbin/ifconfig
 /bin/netstat
 /bin/ping
+/usr/bin/docker
+/usr/bin/kubectl
 EOF
 
-cd ..
+# Create test scripts for sudo practice
+cat > network_test.sh << EOF
+#!/bin/bash
+ifconfig
+netstat -tulpn
+ping -c 4 localhost
+EOF
+
+chmod +x network_test.sh
 ```
 
-## Directory Structure Check
-After setup, verify your structure:
+### Directory Structure Verification
 ```bash
 tree ~/linux_practice
 ```
 
-You should see:
+Expected structure:
 ```
 linux_practice/
 ├── config_files/
-│   └── server_config.txt
+│   ├── server_config.txt
+│   └── app_config.txt
 ├── project_files/
 │   ├── project1.txt
 │   ├── project2.txt
 │   └── project3.txt
 ├── logs/
-│   └── app.log
-├── user_files/
-│   └── john_work/
-│       ├── project_notes.txt
-│       ├── contacts.txt
-│       └── tasks.txt
-└── sudo_practice/
-    └── allowed_commands.txt
+│   ├── app.log
+│   └── app.log.1.gz
+├── user_management/
+│   └── john/
+│       ├── project1.txt
+│       ├── project2.txt
+│       └── important_notes.txt
+├── sudo_practice/
+│   ├── allowed_commands.txt
+│   └── network_test.sh
+└── backup/
 ```
 
-## Practice Instructions
+### Environment Cleanup Script
+```bash
+cat > cleanup.sh << EOF
+#!/bin/bash
+# Cleanup script for practice environment
 
-### For Scenario 1:
+echo "Cleaning up practice environment..."
+
+# Remove practice directories
+rm -rf ~/linux_practice/config_files/*
+rm -rf ~/linux_practice/project_files/*
+rm -rf ~/linux_practice/logs/*
+rm -rf ~/linux_practice/sudo_practice/*
+rm -rf ~/linux_practice/backup/*
+
+# Reset permissions
+chmod -R 644 ~/linux_practice
+find ~/linux_practice -type d -exec chmod 755 {} \;
+
+echo "Cleanup complete!"
+EOF
+
+chmod +x cleanup.sh
+```
+
+## Scenario 1: Text File Management
+**Objective**: Update server IP addresses in configuration files
+
+**Setup**:
 ```bash
 cd ~/linux_practice/config_files
-# Try the sed commands on server_config.txt
+cat > config.txt << EOF
+Server1 IP: 192.168.1.100 
+Backup Server: 192.168.1.100
+Database: mongodb://192.168.1.100:27017
+Redis: 192.168.1.100:6379
+EOF
 ```
 
-### For Scenario 2:
+**Tasks**:
+1. Replace first occurrence of IP in each line
+2. Replace all occurrences globally
+3. Create backup before changes
+
+**Solutions**:
 ```bash
-cd ~/linux_practice/project_files
-# Practice group and permission commands
+# Preview changes (safe practice)
+sed 's/192.168.1.100/192.168.1.200/' config.txt
+
+# Replace first occurrence in each line with backup
+sed -i.bak 's/192.168.1.100/192.168.1.200/' config.txt
+
+# Replace all occurrences globally with backup
+sed -i.bak 's/192.168.1.100/192.168.1.200/g' config.txt
 ```
 
-### For Scenario 3:
+## Scenario 2: User and Group Management
+**Objective**: Set up development team accounts with proper group permissions
+
+**Tasks**:
+1. Create development group
+2. Create user accounts
+3. Configure group permissions
+4. Verify setup
+
+**Solution**:
+```bash
+# Create group
+sudo groupadd developers
+
+# Create users and add to group simultaneously
+for user in alice bob charlie; do
+    sudo useradd -m -G developers $user
+    sudo passwd $user  # Set password
+done
+
+# Verify setup
+getent group developers
+id alice  # Check user's groups
+```
+
+## Scenario 3: Log Analysis and Management
+**Objective**: Manage application logs with different severity levels
+
+**Setup**:
 ```bash
 cd ~/linux_practice/logs
-# Practice log file manipulation
+cat > app.log << EOF
+[2024-02-09 10:00:01] INFO: Application started
+[2024-02-09 10:00:02] DEBUG: Initializing database
+[2024-02-09 10:00:03] ERROR: Connection failed
+[2024-02-09 10:00:04] DEBUG: Retrying connection
+[2024-02-09 10:00:05] INFO: Connected successfully
+EOF
 ```
 
-### For Scenario 4:
+**Tasks**:
+1. Extract ERROR messages
+2. Remove DEBUG messages
+3. Count occurrences of each log level
+4. Rotate logs
+
+**Solutions**:
 ```bash
-cd ~/linux_practice/user_files
-# Practice user file management
+# Extract ERROR messages
+grep "ERROR" app.log
+
+# Remove DEBUG messages with backup
+sed -i.bak '/DEBUG/d' app.log
+
+# Count log levels
+grep -c "INFO" app.log
+grep -c "ERROR" app.log
+
+# Log rotation (manual example)
+mv app.log app.log.1
+gzip app.log.1
 ```
 
-### For Scenario 5:
+## Scenario 4: User Transition Management
+**Objective**: Transfer user data while maintaining security
+
+**Setup**:
 ```bash
-cd ~/linux_practice/sudo_practice
-# Review allowed commands and practice sudo configurations
+cd ~/linux_practice/user_management
+
+# Create project structure
+sudo mkdir -p /home/john/projects
+sudo bash -c 'cat > /home/john/projects/project1.txt << EOF
+Project: API Integration
+Status: In Progress
+EOF'
 ```
 
-```mermaid
-graph TD
-    A[linux_practice] --> B[config_files]
-    A --> C[project_files]
-    A --> D[logs]
-    A --> E[user_files]
-    A --> F[sudo_practice]
-    E --> G[john_work]
-    G --> H[Work Files]
+**Tasks**:
+1. Backup user data
+2. Transfer ownership
+3. Preserve permissions
+4. Verify integrity
+
+**Solution**:
+```bash
+# Backup
+sudo tar -czf /backup/john_backup.tar.gz /home/john/projects/
+
+# Create new user and transfer
+sudo useradd -m sarah
+sudo cp -a /home/john/projects/. /home/sarah/projects/
+sudo chown -R sarah:sarah /home/sarah/projects
+
+# Verify
+sudo -u sarah ls -la /home/sarah/projects/
 ```
 
-This setup provides a safe environment to practice all the scenarios. Each directory contains relevant files and content that you can manipulate without affecting your actual system files.
+## Scenario 5: Sudo Access Management
+**Objective**: Configure granular sudo permissions for DevOps team
 
-Remember to:
-1. Keep regular backups of practice files
-2. Use the `-i.bak` flag with sed to create backups before making changes
-3. Review file contents before and after commands to understand the changes
+**Tasks**:
+1. Create custom sudo rules
+2. Allow specific commands
+3. Maintain security
+
+**Solution**:
+```bash
+# Open sudoers safely
+sudo visudo
+
+# Add specific permissions (add to file)
+devops ALL=(ALL) /sbin/ifconfig, /bin/netstat, /bin/ping
+
+# Test configuration
+sudo visudo -c
+```
+
+## Best Practices
+1. Always create backups before major changes
+2. Use `-i.bak` with sed for automatic backups
+3. Test commands with non-destructive options first
+4. Verify permissions after changes
+5. Document all system modifications
+6. Use version control for configuration files
+
+## Verification Steps
+For each scenario:
+- [ ] Test functionality
+- [ ] Check permissions
+- [ ] Verify backups
+- [ ] Document changes
+- [ ] Review security implications
+
+## Additional Tips
+1. Use `man` pages for detailed command information
+2. Create test environments for practice
+3. Keep logs of all major system changes
+4. Implement regular backup schedules
+5. Use configuration management tools for larger deployments
+
+## Common Pitfalls to Avoid
+1. Forgetting to backup before changes
+2. Not testing commands in safe environment
+3. Incorrect permission settings
+4. Incomplete user transition procedures
+5. Overly permissive sudo rights
