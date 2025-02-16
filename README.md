@@ -1,147 +1,84 @@
-# Git Branch Management Guide
+# DevOps and AWS Weekend Lecture Notes
 
-This guide provides step-by-step instructions to **switch branches, check branch status, push specific files to `main` or `extra-learning` branches, and merge changes when necessary**.
+Welcome to our DevOps and AWS learning repository! This repository contains comprehensive lecture materials, notes, and additional resources for weekend batch students.
 
----
+## Repository Organization
 
-## 1. **Check Available Branches**
-To see all branches in your repository:
-```sh
-git branch
-```
-If you want to see remote branches as well:
-```sh
-git branch -a
-```
+### Main Branch
 
----
+The `main` branch contains core learning materials organized in two primary folders:
 
-## 2. **Switch Between Branches**
-To switch to an existing branch:
-```sh
-git checkout main   # Switch to the main branch
-git checkout extra-learning  # Switch to the extra-learning branch
-```
-If the branch does not exist, create and switch:
-```sh
-git checkout -b new-branch-name
-```
+#### 1. pdf_notes/
 
----
+- Complete handwritten notes from weekend lectures
+- Topic-wise organized PDFs
+- Visual diagrams and architecture drawings
+- Implementation examples
 
-## 3. **Add and Push Some Files to `main` Branch**
-### **Steps:**
-1. Switch to the `main` branch:
-   ```sh
-   git checkout main
-   ```
-2. Add specific files to be committed to `main`:
-   ```sh
-   git add important_file.txt
-   ```
-3. Commit the changes:
-   ```sh
-   git commit -m "Added important_file.txt to main"
-   ```
-4. Push the changes to the remote `main` branch:
-   ```sh
-   git push origin main
-   ```
+#### 2. markdown/
 
----
+- Professional documentation with detailed explanations
+- Step-by-step guides for each concept
+- Code examples and commands
+- Best practices and troubleshooting tips
 
-## 4. **Add and Push Some Files to `extra-learning` Branch**
-### **Steps:**
-1. Switch to the `extra-learning` branch:
-   ```sh
-   git checkout extra-learning
-   ```
-2. Add files to be committed to `extra-learning`:
-   ```sh
-   git add extra_notes.md extra_resources/
-   ```
-3. Commit the changes:
-   ```sh
-   git commit -m "Added extra notes and resources to extra-learning"
-   ```
-4. Push the changes to the `extra-learning` branch:
-   ```sh
-   git push origin extra-learning
-   ```
+### Extra Learning Branch
 
----
+The `extra-learning` branch provides supplementary materials:
 
-## 5. **Add a README.md File to Both Branches**
-### **Example Scenario:**
-Suppose you want to add `README.md` to both `main` and `extra-learning` branches.
+- Deep dive into complex topics
+- Additional examples and use cases
+- Extended practice exercises
+- Advanced concepts beyond course curriculum
 
-### **Steps:**
-1. Create the file:
-   ```sh
-   echo "# Project Documentation" > README.md
-   ```
-2. Add and commit it to `main`:
-   ```sh
-   git checkout main
-   git add README.md
-   git commit -m "Added README.md to main"
-   git push origin main
-   ```
-3. Switch to `extra-learning` and merge from `main`:
-   ```sh
-   git checkout extra-learning
-   git merge main
-   ```
-4. Push the changes to `extra-learning`:
-   ```sh
-   git push origin extra-learning
-   ```
-This ensures that `README.md` exists in both branches.
+## Course Topics
 
----
+### 1. DevOps Fundamentals
 
-## 6. **Merge Files or Folders into `main` from `extra-learning`**
-If you need to merge specific changes from `extra-learning` to `main`:
+- Version Control with Git
+- Linux Fundamentals
+- Shell Scripting
+- Maven
+- Continuous Integration
+- Continuous Deployment
+- Continuous Delivery
 
-### **Steps:**
-1. Switch to the `main` branch:
-   ```sh
-   git checkout main
-   ```
-2. Merge changes from `extra-learning`:
-   ```sh
-   git merge extra-learning
-   ```
-3. If conflicts occur, resolve them manually, then:
-   ```sh
-   git add .
-   git commit -m "Resolved merge conflicts"
-   ```
-4. Push the merged changes to `main`:
-   ```sh
-   git push origin main
-   ```
+### 2. AWS Services
 
----
+- EC2
+- S3
+- VPC
+- IAM
+- Route 53
+- RDS
+- Lambda
+- CloudWatch
 
-## 7. **Delete a Branch (If No Longer Needed)**
-To delete a branch locally:
-```sh
-git branch -d branch-name
-```
-To delete a branch remotely:
-```sh
-git push origin --delete branch-name
+### 3. Tools & Technologies
+
+- Jenkins
+- Docker
+- Kubernetes
+- Ansible
+- Terraform
+- Prometheus
+- Grafana
+- SonarQube
+
+## How to Use
+
+```bash
+# Get the main course materials
+git clone https://github.com/[username]/devops-notes.git
+cd devops-notes
+
+# For core learning materials
+git checkout main
+
+# For additional learning resources
+git checkout extra-learning
 ```
 
----
+⭐ Star this repository if you find it helpful!
 
-## Conclusion
-- Use `git checkout` to switch branches.
-- Use `git add`, `commit`, and `push` to manage files in specific branches.
-- Merge branches when necessary to keep changes in sync.
-- Keep `main` for core content and `extra-learning` for additional materials.
-- Follow the example to ensure important files like `README.md` exist in both branches.
-
-By following these steps, you can efficiently manage your project workflow in Git. 🚀
-
+_Last Updated: February 2025_
