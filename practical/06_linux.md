@@ -1,282 +1,302 @@
 # Linux Command-Line Practice Guide
 
-## Initial Environment Setup
+## Practice Environment Setup
+
+### Initial Setup
 ```bash
 # Create main practice directory
-mkdir -p ~/linux_practice
+mkdir ~/linux_practice
 cd ~/linux_practice
 
-# Create scenario directories
-mkdir -p {config,logs,users,sudo,backup}
+# Create scenario-specific directories
+mkdir -p {config_files,logs,user_management,sudo_practice,backup,project_files}
 ```
 
-## Scenario 1: Configuration Management
+### Scenario-Specific Environment Setup
 
-### Environment Setup
+#### 1. Text File Management Environment
 ```bash
-cd ~/linux_practice/config
+cd ~/linux_practice/config_files
 
-# Create production config
-cat > prod_config.txt << EOF
-# Production Environment
-APP_SERVER=192.168.1.100
-DB_SERVER=192.168.1.100
-CACHE_SERVER=192.168.1.100
-REDIS_URL=redis://192.168.1.100:6379
-MONGO_URL=mongodb://192.168.1.100:27017
+# Create sample configuration files
+cat > server_config.txt << EOF
+Server1 IP: 192.168.1.100 
+Backup Server: 192.168.1.100
+Database: mongodb://192.168.1.100:27017
+Redis: 192.168.1.100:6379
+Load Balancer: 192.168.1.100:80
 EOF
 
-# Create development config
-cat > dev_config.txt << EOF
-# Development Environment
+# Create backup configuration
+cat > app_config.txt << EOF
 APP_SERVER=192.168.1.100
 DB_SERVER=192.168.1.100
 CACHE_SERVER=192.168.1.100
 EOF
 ```
 
-### Practice Tasks
-1. Update all IPs in prod_config.txt to 192.168.1.200
-2. Update only the APP_SERVER in dev_config.txt
-3. Add comments while preserving existing ones
+## Scenario 1: Text File Management
+**Objective**: Update server IP addresses in configuration files
 
-### Solutions
+**Tasks & Solutions**:
+1. Replace first occurrence in server_config.txt
 ```bash
-# Task 1: Update all IPs in prod_config.txt
-sed -i.bak 's/192.168.1.100/192.168.1.200/g' prod_config.txt
+# Preview changes
+sed 's/192.168.1.100/192.168.1.200/' server_config.txt
 
-# Task 2: Update specific entry in dev_config.txt
-sed -i.bak 's/^APP_SERVER=192.168.1.100/APP_SERVER=192.168.1.200/' dev_config.txt
-
-# Task 3: Add comments
-sed -i.bak '/^#/!s/^/# Modified: $(date) \n/' prod_config.txt
+# Make change with backup
+sed -i.bak 's/192.168.1.100/192.168.1.200/' server_config.txt
 ```
 
-## Scenario 2: Log Management
+2. Update all server entries in app_config.txt
+```bash
+# Replace all occurrences
+sed -i.bak 's/192.168.1.100/192.168.1.200/g' app_config.txt
+```
 
-### Environment Setup
+3. Verify changes
+```bash
+# Check both files
+cat server_config.txt
+cat app_config.txt
+```
+
+### 2. Project Files Environment Setup
+```bash
+cd ~/linux_practice/project_files
+
+# Create sample project files
+for i in {1..3}; do
+    echo "Project $i Documentation" > project${i}.txt
+    echo "Content for project $i" >> project${i}.txt
+    echo "Status: In Progress" >> project${i}.txt
+done
+
+# Set appropriate permissions
+chmod 644 project*.txt
+```
+
+## Scenario 2: Project Files Management
+**Objective**: Manage project files and permissions
+
+**Tasks & Solutions**:
+1. List and sort projects
+```bash
+# List all projects
+ls -l project*.txt
+
+# Sort by modification time
+ls -lt project*.txt
+```
+
+2. Add content to specific project
+```bash
+# Append to project1.txt
+echo "Updated: $(date)" >> project1.txt
+```
+
+3. Change permissions
+```bash
+# Make all projects read-only
+chmod 444 project*.txt
+```
+
+### 3. Log Files Environment Setup
 ```bash
 cd ~/linux_practice/logs
 
-# Create application log with mixed content
+# Create sample log file with mixed content
 cat > app.log << EOF
-[2024-02-16 10:00:01] INFO: Application startup
-[2024-02-16 10:00:02] DEBUG: Loading configurations
-[2024-02-16 10:00:03] ERROR: Database connection failed
-[2024-02-16 10:00:04] DEBUG: Retrying connection
-[2024-02-16 10:00:05] INFO: Database connected
-[2024-02-16 10:00:06] WARNING: High memory usage
-[2024-02-16 10:00:07] DEBUG: Running garbage collection
-[2024-02-16 10:00:08] INFO: Memory optimized
+[2024-02-09 10:00:01] INFO: Application started
+[2024-02-09 10:00:02] DEBUG: Initializing database connection
+[2024-02-09 10:00:03] ERROR: Failed to connect to backup server
+[2024-02-09 10:00:04] DEBUG: Retrying connection...
+[2024-02-09 10:00:05] INFO: Connected to primary server
+[2024-02-09 10:00:06] DEBUG: Loading user preferences
+[2024-02-09 10:00:07] WARNING: High memory usage detected
+[2024-02-09 10:00:08] DEBUG: Garbage collection started
+[2024-02-09 10:00:09] INFO: System stable
 EOF
 
-# Create backup log
+# Create rotated log files
 cp app.log app.log.1
 gzip app.log.1
 ```
 
-### Practice Tasks
-1. Extract and count error messages
-2. Remove debug messages
-3. Implement log rotation
-4. Create summary report
+## Scenario 3: Log Analysis
+**Objective**: Analyze and manage log files
 
-### Solutions
+**Tasks & Solutions**:
+1. Extract error messages
 ```bash
-# Task 1: Extract and count errors
 grep "ERROR" app.log
-grep -c "ERROR" app.log
-
-# Task 2: Remove debug messages
-sed -i.bak '/DEBUG/d' app.log
-
-# Task 3: Log rotation
-mv app.log app.log.2
-gzip app.log.2
-
-# Task 4: Create summary
-echo "Log Summary" > summary.txt
-echo "Errors: $(grep -c "ERROR" app.log.1)" >> summary.txt
-echo "Warnings: $(grep -c "WARNING" app.log.1)" >> summary.txt
-echo "Info: $(grep -c "INFO" app.log.1)" >> summary.txt
 ```
 
-## Scenario 3: User Management
-
-### Environment Setup
+2. Remove DEBUG messages
 ```bash
-cd ~/linux_practice/users
+# Remove with backup
+sed -i.bak '/DEBUG/d' app.log
+```
 
-# Create project structure
-sudo mkdir -p /home/developer/projects
-cd /home/developer/projects
+3. Count by log level
+```bash
+echo "Error Count: $(grep -c "ERROR" app.log)"
+echo "Info Count: $(grep -c "INFO" app.log)"
+echo "Warning Count: $(grep -c "WARNING" app.log)"
+```
 
-# Create project files
+### 4. User Management Setup
+```bash
+cd ~/linux_practice/user_management
+
+# Create test user directories
+sudo mkdir -p /home/john/projects
+cd /home/john/projects
+
+# Create sample project files for John
 sudo bash -c 'cat > project1.txt << EOF
-Project: Authentication Service
-Status: In Progress
+Project Status: In Progress
 Priority: High
-Team: Security
+Deadline: March 2024
 Tasks:
-- Implement OAuth2
-- Add JWT support
-- Setup user roles
+- API Integration
+- Database Migration
+- Security Updates
 EOF'
 
 sudo bash -c 'cat > project2.txt << EOF
-Project: Payment Gateway
-Status: Planning
-Priority: Medium
-Team: Finance
-Tasks:
-- API design
-- Security review
-- Integration tests
+Client Requirements:
+1. User Authentication
+2. Payment Gateway
+3. Reporting System
+Status: 70% Complete
+EOF'
+
+sudo bash -c 'cat > important_notes.txt << EOF
+Server Credentials:
+- Dev Server: dev.example.com
+- Test Environment: test.example.com
+- Database Backups: Daily at 2 AM
 EOF'
 
 # Set ownership
-sudo chown -R developer:developer /home/developer/projects
+sudo chown -R john:john /home/john/projects
 ```
 
-### Practice Tasks
-1. Create new user and group
-2. Transfer project ownership
-3. Setup correct permissions
-4. Verify access
+## Scenario 4: User Management
+**Objective**: Transfer user data and manage permissions
 
-### Solutions
+**Tasks & Solutions**:
+1. Backup John's data
 ```bash
-# Task 1: Create user and group
-sudo groupadd devteam
-sudo useradd -m -G devteam newdev
-
-# Task 2: Transfer ownership
-sudo cp -a /home/developer/projects/. /home/newdev/projects/
-sudo chown -R newdev:devteam /home/newdev/projects/
-
-# Task 3: Set permissions
-sudo chmod -R 750 /home/newdev/projects/
-
-# Task 4: Verify
-sudo -u newdev ls -la /home/newdev/projects/
+# Create backup
+sudo tar -czf /backup/john_backup.tar.gz /home/john/projects/
 ```
 
-## Scenario 4: Sudo Access Control
-
-### Environment Setup
+2. Create new user and transfer files
 ```bash
-cd ~/linux_practice/sudo
+# Create Sarah's account
+sudo useradd -m sarah
 
-# Create allowed commands list
-cat > commands.txt << EOF
-# Networking Commands
+# Copy with permissions
+sudo cp -a /home/john/projects/. /home/sarah/projects/
+sudo chown -R sarah:sarah /home/sarah/projects/
+```
+
+3. Verify transfer
+```bash
+# Check ownership and permissions
+ls -la /home/sarah/projects/
+```
+
+### 5. Sudo Practice Environment Setup
+```bash
+cd ~/linux_practice/sudo_practice
+
+# Create command list file
+cat > allowed_commands.txt << EOF
+Available Commands:
 /sbin/ifconfig
 /bin/netstat
 /bin/ping
-
-# Docker Commands
-/usr/bin/docker ps
-/usr/bin/docker images
-/usr/bin/docker-compose up
-
-# Kubernetes Commands
-/usr/bin/kubectl get pods
-/usr/bin/kubectl describe pod
-/usr/bin/kubectl logs
+/usr/bin/docker
+/usr/bin/kubectl
 EOF
 
-# Create test script
-cat > network_check.sh << EOF
+# Create test scripts for sudo practice
+cat > network_test.sh << EOF
 #!/bin/bash
-echo "Network Status Check"
 ifconfig
 netstat -tulpn
 ping -c 4 localhost
 EOF
 
-chmod +x network_check.sh
+chmod +x network_test.sh
 ```
 
-### Practice Tasks
-1. Configure sudo access for specific commands
-2. Test restricted access
-3. Audit sudo usage
-4. Implement command logging
+## Scenario 5: Sudo Access Management
+**Objective**: Configure and test sudo access
 
-### Solutions
+**Tasks & Solutions**:
+1. Configure sudo access
 ```bash
-# Task 1: Configure sudo access
-sudo visudo -f /etc/sudoers.d/devops
-# Add:
-# devops ALL=(ALL) /sbin/ifconfig, /bin/netstat, /bin/ping
+# Open sudoers safely
+sudo visudo
 
-# Task 2: Test access
+# Add line for devops user
+devops ALL=(ALL) /sbin/ifconfig, /bin/netstat, /bin/ping
+```
+
+2. Test configuration
+```bash
+# Run test script
+sudo ./network_test.sh
+
+# Verify allowed commands
 sudo -l -U devops
-./network_check.sh
-
-# Task 3: Enable sudo logging
-sudo bash -c 'echo "Defaults logfile=/var/log/sudo.log" >> /etc/sudoers.d/logging'
-
-# Task 4: Review logs
-sudo tail -f /var/log/sudo.log
 ```
 
-## Environment Cleanup
+3. Check command execution
 ```bash
-cat > ~/linux_practice/cleanup.sh << EOF
-#!/bin/bash
-echo "Cleaning practice environment..."
+# Test each command
+sudo ifconfig
+sudo netstat -tulpn
+sudo ping -c 4 localhost
+```
 
-# Remove all created files
-rm -rf ~/linux_practice/config/*
+## Verification Steps for All Scenarios
+- [ ] File contents are correct
+- [ ] Permissions are set properly
+- [ ] Backups are created
+- [ ] Users have correct access
+- [ ] Commands execute successfully
+
+## Common Pitfalls to Avoid
+1. Not checking file contents after sed operations
+2. Forgetting to create backups
+3. Incorrect permission settings
+4. Not verifying user access
+5. Missing sudo configuration testing
+
+## Cleanup Script
+```bash
+cat > cleanup.sh << EOF
+#!/bin/bash
+echo "Cleaning up practice environment..."
+
+# Remove practice directories
+rm -rf ~/linux_practice/config_files/*
+rm -rf ~/linux_practice/project_files/*
 rm -rf ~/linux_practice/logs/*
-rm -rf ~/linux_practice/users/*
-rm -rf ~/linux_practice/sudo/*
+rm -rf ~/linux_practice/sudo_practice/*
 rm -rf ~/linux_practice/backup/*
 
 # Reset permissions
+chmod -R 644 ~/linux_practice
 find ~/linux_practice -type d -exec chmod 755 {} \;
-find ~/linux_practice -type f -exec chmod 644 {} \;
 
-echo "Environment cleaned!"
+echo "Cleanup complete!"
 EOF
 
-chmod +x ~/linux_practice/cleanup.sh
-```
-
-## Best Practices
-1. Always backup before making changes
-2. Use version control for configurations
-3. Test commands in safe environment
-4. Document all system changes
-5. Verify permissions after modifications
-6. Keep audit logs of administrative actions
-
-## Common Pitfalls
-1. Forgetting to backup
-2. Not testing in isolation
-3. Incorrect permission settings
-4. Incomplete cleanup
-5. Insufficient logging
-6. Overly permissive access
-
-## Directory Structure
-```
-linux_practice/
-├── config/
-│   ├── prod_config.txt
-│   └── dev_config.txt
-├── logs/
-│   ├── app.log
-│   ├── app.log.1.gz
-│   └── summary.txt
-├── users/
-│   └── projects/
-│       ├── project1.txt
-│       └── project2.txt
-├── sudo/
-│   ├── commands.txt
-│   └── network_check.sh
-├── backup/
-└── cleanup.sh
+chmod +x cleanup.sh
 ```
