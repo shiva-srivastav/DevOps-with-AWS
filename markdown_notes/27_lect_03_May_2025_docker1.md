@@ -113,10 +113,10 @@ $ docker run -d -p 8484:8080 telusko/spring-boot-app
 ```mermaid
 graph TD
     HostMachine((Host Machine))
-    subgraph Docker Engine [Docker Engine - Linux OS]
-    GuestVM[Guest VM (Linux)]
-    GuestVM --> C1[Docker Container 1: -p 8485:9090]
-    GuestVM --> C2[Docker Container 2: -p 8585:80]
+    subgraph DockerEngine["Docker Engine - Linux OS"]
+        GuestVM["Guest VM - Linux"]
+        GuestVM --> C1["Docker Container 1: -p 8485:9090"]
+        GuestVM --> C2["Docker Container 2: -p 8585:80"]
     end
     HostMachine --> DockerEngine
 ```
