@@ -73,10 +73,11 @@ Docker solves this by packaging app code + all dependencies → **Container**
 ```mermaid
 graph TD
     Dockerfile -->|build| DockerImage
-    DockerImage -->|run| Container1[Container (Windows VM)]
-    DockerImage -->|run| Container2[Container (Mac VM)]
-    DockerImage -->|run| Container3[Container (Linux VM)]
+    DockerImage -->|run| Container1[Container - Windows VM]
+    DockerImage -->|run| Container2[Container - Mac VM]
+    DockerImage -->|run| Container3[Container - Linux VM]
     DockerImage -->|push| DockerHub
+
 ```
 
 ---
